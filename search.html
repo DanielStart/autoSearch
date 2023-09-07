@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Automatische Google-Suche</title>
+</head>
+<body>
+
+<h1>Automatische Google-Suche</h1>
+
+<button id="startSearch">Starte die Suche</button>
+
+<script>
+  // Diese Funktion liest die Textdatei 'queries.txt', die im gleichen Ordner wie diese HTML-Datei liegen sollte.
+  async function readFile() {
+    const response = await fetch('queries.txt');
+    const text = await response.text();
+    return text.split("\n");
+  }
+
+  document.getElementById("startSearch").addEventListener("click", async () => {
+    const queries = await readFile();
+
+    for (let query of queries) {
+      if (query.trim()) {
+        // Öffnen Sie einen neuen Tab für jede Google-Suche
+        const url = "https://www.google.com/search?q=" + encodeURIComponent(query.trim());
+        window.open(url, "_blank");
+      }
+    }
+  });
+</script>
+
+</body>
+</html>
