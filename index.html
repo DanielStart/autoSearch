@@ -1,34 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Automatische Google-Suche</title>
+  <title>Link- und Textöffner</title>
 </head>
 <body>
 
-<h1>Automatische Google-Suche</h1>
+  <button id="googleSearch">Google-Suche für jeden Eintrag in queries.txt</button>
+  <button id="openLinks">Links aus podcastPartners.txt öffnen</button>
 
-<button id="startSearch">Starte die Suche</button>
+  <script>
+    // Google-Suche für jeden Eintrag in queries.txt
+    document.getElementById('googleSearch').addEventListener('click', function() {
+      fetch('queries.txt')
+        .then(response => response.text())
+        .then(text => {
+          const lines = text.split('\n');
+          lines.forEach(line => {
+            if(line.trim()) {
+              const url = `https://www.google.com/search?q=${line.trim()}`;
+              window.open(url, '_blank');
+            }
+          });
+        });
+    });
 
-<script>
-  // Diese Funktion liest die Textdatei 'queries.txt', die im gleichen Ordner wie diese HTML-Datei liegen sollte.
-  async function readFile() {
-    const response = await fetch('queries.txt');
-    const text = await response.text();
-    return text.split("\n");
-  }
+    // Links aus podcastPartners.txt öffnen
+    document.getElementById('openLinks').addEventListener('click', function() {
+      fetch('podcastPartners.txt')
+        .then(response => response.text())
+        .then(text => {
+          const lines = text.split('\n');
+          lines.forEach(line => {
+            const parts = line.split(' '); // ID und URL durch Leerzeichen getrennt
+            if(parts.length === 2) {
+              const id = parts[0];
+              const url = parts[1];
+              window.open(url, '_blank');
 
-  document.getElementById("startSearch").addEventListener("click", async () => {
-    const queries = await readFile();
-
-    for (let query of queries) {
-      if (query.trim()) {
-        // Öffnen Sie einen neuen Tab für jede Google-Suche
-        const url = "https://www.google.com/search?q=" + encodeURIComponent(query.trim());
-        window.open(url, "_blank");
-      }
-    }
-  });
-</script>
+              // Hier müsste der Code zum Erstellen von Screenshots kommen
+            }
+          });
+        });
+    });
+  </script>
 
 </body>
 </html>
