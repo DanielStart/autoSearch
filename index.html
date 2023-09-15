@@ -31,7 +31,7 @@
         .then(text => {
           const lines = text.split('\n');
           lines.forEach(line => {
-            const parts = line.split(' '); // ID und URL durch Leerzeichen getrennt
+            const parts = line.split('\t'); // ID und URL durch Leerzeichen getrennt
             if(parts.length === 2) {
               const id = parts[0];
               const url = parts[1];
