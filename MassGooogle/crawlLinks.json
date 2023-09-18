@@ -1,0 +1,54 @@
+{
+    "2": [
+      {"scriptDeaktivieren": "true"},
+      {"Label": "data-testid", "Value": "LinkButton"},
+      {"Label": "class", "Value": "sc-pFZIQ"},
+      {"Label": "class", "Value": "sc-bkzZxe"},
+      {"Label": "class", "Value": "ldGKnQ"}
+    ],
+    "8": [
+      {"scriptDeaktivieren": "true"},
+      {"Label": "text", "Value": ""}
+    ],
+    "9": [
+      {"scriptDeaktivieren": "true"},
+      {"Label": "text", "Value": ""}
+    ],
+    "10": [
+      {"scriptDeaktivieren": "false"},
+      {"Label": "class", "Value": "d-flex"},
+      {"Label": "class", "Value": "mbbox_link"},
+      {"Label": "class", "Value": "justify-content-center"},
+      {"Label": "class", "Value": "justify-content-md-end"}
+    ],
+    "12": [
+      {"scriptDeaktivieren": "true"},
+      {"Label": "text", "Value": "Zum Anbieter"}
+    ],
+    "19": [
+      {"scriptDeaktivieren": "true"},
+      {"Label": "class", "Value": "sc-pFZIQ"},
+      {"Label": "class", "Value": "sc-bkzZxe"},
+      {"Label": "class", "Value": "ldGKnQ"},
+      {"Label": "class", "Value": "eQPpGO"},
+      {"Label": "class", "Value": "group"},
+      {"Label": "data-testid", "Value": "LinkButton"}
+    ],    
+    "20": [
+      {"scriptDeaktivieren": "true"},
+      {"Label": "rel", "Value": "sponsored noopener"}
+    ],
+    "25": [
+      {"scriptDeaktivieren": "true"},
+      {"Label": "rel", "Value": "bookmark"}
+    ],
+    "39": [
+      {"scriptDeaktivieren": "true"},
+      {"Label": "rel", "Value": "noopener"}
+    ],
+    "40": [
+      {"scriptDeaktivieren": "true"},
+      {"Label": "class", "Value": "link-block-item"},
+      {"Label": "class", "Value": "w-inline-block"}
+    ]
+  }

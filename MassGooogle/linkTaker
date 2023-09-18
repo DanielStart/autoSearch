@@ -1,0 +1,108 @@
+const puppeteer = require('puppeteer');
+const fs = require('fs');
+const path = require('path');
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
+const crawls = require('./crawlLinks.json');
+
+// Funktion zur Datumsformatierung
+function formatDate(date) {
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+  return `${day}.${month}.${year}`;
+}
+async function saveCompletePage(id, url) {
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
+
+  // Die Selektoren für die gegebene ID aus der crawls-Datei
+  let selectors = crawls[id] || [];
+  if (selectors[0]?.scriptDeaktivieren === "true") {
+    console.log("idx"+id);
+    await page.setRequestInterception(true);
+    page.on('request', (req) => {
+    if(req.resourceType() === 'script' || req.resourceType() === 'image' || req.resourceType() === 'stylesheet')
+      req.abort();
+    else
+      req.continue();
+    });
+  }
+  
+  
+  await page.goto(url, { waitUntil: 'networkidle2' });
+  const htmlContent = await page.content();
+  const currentDate = new Date();
+  const formattedDate = formatDate(currentDate);
+  
+  if (!fs.existsSync(formattedDate)){
+    fs.mkdirSync(formattedDate);
+  }
+  
+  const subFolderPath = formattedDate;
+
+  const htmlFilePath = path.join(subFolderPath, `${id}.html`);
+  //fs.writeFileSync(htmlFilePath, htmlContent);
+  
+  // HTML-Datei erneut lesen und Links extrahieren
+  const dom = new JSDOM(htmlContent);
+  
+
+    // Speichert alle Links (unabhängig vom Filter)
+  let allLinks = Array.from(dom.window.document.querySelectorAll('a')).map(a => a.outerHTML);
+
+  // Speichert nur die gefilterten Links
+  let filteredLinks = [];
+
+  // Durchlaufen Sie alle Links und prüfen Sie, ob mindestens einer der Filter zutrifft
+  for (const linkElement of dom.window.document.querySelectorAll('a')) {
+    let outerHTML = linkElement.outerHTML;
+    let textContent = linkElement.textContent;
+    
+    // Überprüfen, ob mindestens einer der Filter zutrifft
+    if (selectors.some(selector => {
+      //console.log(selector);
+      //console.log(""+selector+"a"+selector.Label+"b"+selector.Label);
+      if (selector.Label === "text") {
+        if (""+id === "10") {
+          //console.log(selector.Label+"//"+selector.Value);
+          //console.log(textContent);
+        }
+        return textContent.includes(selector.Value);
+      } else {
+        if (""+id === "10") {
+          //console.log(selector.Label+"//"+selector.Value);
+          console.log("Label: "+selector.Label+" Value im Link "+linkElement.getAttribute(selector.Label)+"Value text "+textContent);
+        }
+        const attrValue = linkElement.getAttribute(selector.Label);
+        return attrValue ? attrValue.includes(selector.Value) : false;
+      }
+    })) {
+      // Wenn ja, fügen Sie den Link zur Liste der gefilterten Links hinzu
+      filteredLinks.push(linkElement.href);
+    }
+  }
+  // Speichern Sie die gefilterten Links in einer Datei
+  const filteredLinksFilePath = path.join(subFolderPath, `${id}_${formattedDate}_filtered_links.txt`);
+  fs.writeFileSync(filteredLinksFilePath, filteredLinks.join('\n'));
+
+  // Speichern Sie alle Links (unverändert) in einer anderen Datei
+  const allLinksFilePath = path.join(subFolderPath, `${id}_${formattedDate}_all_links.txt`);
+  //fs.writeFileSync(allLinksFilePath, allLinks.join('\n'));
+
+  await browser.close();
+}
+fs.readFile('podcastPartners.txt', 'utf-8', async (err, data) => {
+  if (err) {
+    console.error('Fehler beim Lesen der Datei:', err);
+    return;
+  }
+
+  const lines = data.split('\n');
+  for (const line of lines) {
+    const [id, url] = line.split('\t');
+    if (id && url) {
+      await saveCompletePage(id, url).catch(console.error);
+    }
+  }
+});

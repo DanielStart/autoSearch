@@ -1,0 +1,10 @@
+2	https://podstars.de/podstar/omr-podcast/partner/
+8	https://linktr.ee/diestundenull 
+9	https://linktr.ee/aktienfuersleben
+10	https://cmk.handelsblatt.com/cms/articles/15597/anzeige/podcast-werbepartnerinnen/hier-gibt-s-weitere-infos-zu-den-angeboten-unserer-werbepartner-innen
+12	https://www.digitalkompakt.de/sponsoren/
+19	https://linktr.ee/kampfderunternehmen
+20	https://detektor.fm/werbepartner/brand-eins-podcast
+25	https://machen.fm/Partner/
+39	https://linktr.ee/fastandcuriouspodcast
+40	https://lollipod.de/sn/doppelgaenger-werbung 
