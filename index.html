@@ -6,7 +6,8 @@
 <body>
 
   <button id="googleSearch">Google-Suche für jeden Eintrag in queries.txt</button>
-  <button id="openLinks">Links aus podcastPartners.txt öffnen 2</button>
+  <button id="openLinks">Links aus podcastPartners.txt öffnen </button>
+  <button id="openRandomLinks">Random Links öffnen</button>
 
   <script>
     // Google-Suche für jeden Eintrag in queries.txt
@@ -38,6 +39,19 @@
               window.open(url, '_blank');
 
               // Hier müsste der Code zum Erstellen von Screenshots kommen
+            }
+          });
+        });
+    });
+    document.getElementById('openRandomLinks').addEventListener('click', function() {
+      fetch('queriesRandom.txt')
+        .then(response => response.text())
+        .then(text => {
+          const lines = text.split('\n');
+          lines.forEach(line => {
+            if(line.trim()) {
+              const url = `https://www.google.com/search?q=${line.trim()}`;
+              window.open(url, '_blank');
             }
           });
         });
